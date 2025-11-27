@@ -26,6 +26,7 @@ try {
         } catch (error) {
             // res.status(302).json({message:"Session Expired"})
     try {
+    console.log("error:",error);
         const verifyRefJwt = jwt.verify(req.cookies.refreshToken,process.env.REFRESH_TOKEN_SECRET);
         console.log("verifyRefJwt::::",verifyRefJwt);
         const findUser = await User.findById(verifyRefJwt._id);
@@ -37,20 +38,19 @@ try {
                 httpOnly:true,
                 secure:true
             }
-             res.status(200).cookie("accToken",accessToken,option)     
+            res.status(200).cookie("accToken",accessToken,option)     
             req.user = findUser;
             req.customMessage = "AccessToken regenerate Successfully !";
             res.status(200).json({message:"AccessToken Regenerated SucessFully !"}).cookies("accToken",accessToken,option);
             return next()
         }
-
+        
         console.log("findUser::::::",findUser)
         // return next()
     } catch (error) {
         console.log(error);
-    }
-    console.log("error:",error);
-    
+        return res.status(404).json({message:"Session Expired Please Login Yourself!"});
+    }    
 }   
 });
 
