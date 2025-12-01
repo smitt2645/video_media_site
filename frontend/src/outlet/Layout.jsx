@@ -24,7 +24,7 @@ export const Layout = () => {
       <Suspense fallback={<div>Loading...</div>}>
         <div className="h-screen grid grid-cols-[auto_1fr] grid-rows-[auto_1fr]">
           {/* Sidebar - spans both rows */}
-          <aside className="row-span-2">
+          <aside className="row-span-2 overflow-scroll">
             <SideBar />
           </aside>
 
